@@ -4,6 +4,7 @@ var path = require('path');
 module.exports = {
     entry: {
         "index"  : "./src/js/index",
+        "test"  : "./src/js/test",
     },
     output: {
         //打包文件存放的绝对路径
@@ -17,7 +18,6 @@ module.exports = {
     externals: {
         'react': 'React'
     },
-
 
     module: {
         loaders: [

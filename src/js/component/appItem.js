@@ -6,13 +6,11 @@ import React from  "react";
 
 export default class TodoItem extends React.Component {
 
-
     //处理任务是否完成
     handlerChange() {
         let isDone = !this.props.isDone;
         this.props.changeTodoState(this.props.index, isDone);
     };
-
 
     // 鼠标移入
     handlerMouseOver() {

@@ -66,8 +66,6 @@
 	    value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(2);
@@ -103,47 +101,20 @@
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this));
 	
 	        _this.state = {
-	            todoList: [],
-	            isAllChecked: false
+	            todoList: []
 	        };
 	        return _this;
 	    }
 	
 	    _createClass(App, [{
-	        key: "allChecked",
-	
-	
-	        //判断是否有任务状态都完成,同步底部选择框
-	        value: function allChecked() {
-	            var isAllChecked = false;
-	            if (this.state.todoList.every(function (todo) {
-	                return todo.isChecked;
-	            })) {
-	                isAllChecked = true;
-	            }
-	            this.setState({ isAllChecked: isAllChecked });
-	        }
-	    }, {
 	        key: "changeTodoState",
 	
 	
 	        //改变任务状态
 	        value: function changeTodoState(index, isDone) {
-	            var isChangeAll = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 	
-	
-	            if (isChangeAll) {
-	                this.setState({
-	                    todoList: this.state.todoList.map(function (todo) {
-	                        todo.isDone = isDone;
-	                        return todo;
-	                    }),
-	                    isAllChecked: isDone
-	                });
-	            } else {
-	                this.state.todoList[index].isDone = isDone;
-	                this.allChecked();
-	            }
+	            this.state.todoList[index].isDone = isDone;
+	            this.setState({});
 	        }
 	    }, {
 	        key: "addTodo",
@@ -151,8 +122,11 @@
 	
 	        //添加任务
 	        value: function addTodo(todoItem) {
-	            this.state.todoList.push(todoItem);
-	            this.allChecked();
+	            var todoList = this.state.todoList;
+	            todoList.push(todoItem);
+	            this.setState({
+	                todoList: todoList
+	            });
 	        }
 	    }, {
 	        key: "removeTodo",
@@ -163,21 +137,6 @@
 	            this.state.todoList.splice(index, 1);
 	            this.setState({
 	                todoList: this.state.todoList
-	            });
-	        }
-	    }, {
-	        key: "clearDone",
-	
-	
-	        //清空已完成的任务1
-	        value: function clearDone() {
-	            var todoList = this.state.todoList.filter(function (todo) {
-	                return !todo.isChecked;
-	            });
-	
-	            this.setState({
-	                todoList: todoList,
-	                isAllChecked: false
 	            });
 	        }
 	    }, {
@@ -196,7 +155,7 @@
 	                { className: "panel" },
 	                _react2.default.createElement(_appHeader2.default, { addTodo: this.addTodo.bind(this) }),
 	                _react2.default.createElement(_appMain2.default, { removeTodo: this.removeTodo.bind(this), todoList: this.state.todoList, changeTodoState: this.changeTodoState.bind(this) }),
-	                _react2.default.createElement(_appFooter2.default, _extends({ isAllChecked: this.state.isAllChecked, clearDone: this.clearDone.bind(this) }, props, { changeTodoState: this.changeTodoState.bind(this) }))
+	                _react2.default.createElement(_appFooter2.default, props)
 	            );
 	        }
 	    }]);
@@ -320,25 +279,11 @@
 	    }
 	
 	    _createClass(TodoFooter, [{
-	        key: "handlerAllState",
-	        value: function handlerAllState(event) {
-	            this.props.changeTodoState(null, event.target.checked, true);
-	        }
-	    }, {
-	        key: "handlerClearDone",
-	
-	
-	        //清空已完成的任务
-	        value: function handlerClearDone() {
-	            this.props.clearDone();
-	        }
-	    }, {
 	        key: "render",
 	        value: function render() {
 	            return _react2.default.createElement(
 	                "div",
-	                { className: "" },
-	                _react2.default.createElement("input", { type: "checkbox", checked: this.props.isAllChecked, onChange: this.handlerAllState.bind(this) }),
+	                { className: "clearfix todo-footer" },
 	                _react2.default.createElement(
 	                    "span",
 	                    null,
@@ -346,11 +291,6 @@
 	                    "已完成/",
 	                    this.props.todoCount,
 	                    "总数"
-	                ),
-	                _react2.default.createElement(
-	                    "button",
-	                    { onClick: this.handlerClearDone.bind(this) },
-	                    "清除已完成"
 	                )
 	            );
 	        }

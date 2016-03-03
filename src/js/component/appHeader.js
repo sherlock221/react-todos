@@ -21,7 +21,6 @@ class  TodoHeader extends React.Component{
 
             event.target.value = "";
             this.props.addTodo(newToDoItem);
-
         }
     };
 
